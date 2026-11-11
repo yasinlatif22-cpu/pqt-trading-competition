@@ -8,3 +8,5 @@ data/
 .env
 .DS_Store
 pqt-runs/
+
+research/audit/out/

@@ -17,6 +17,7 @@ The market is a simulated exchange with four symbols: an ETF (`HPPO` = 1 `BNKY` 
 | `strategies/yl_alpha.py` | Market maker quoting around a regression forecast of the 60 s mid change |
 | `research/` | Regression, jump and shock analysis, trading-day structure, taker study, log summarizer, control/news/view tests, and `yl_alpha_experimental.py` (an earlier forecast-quoting prototype) |
 | `tools/` | Parallel backtest sweep with the 60 s markout proxy, config grid, per-fill markout, run-all |
+| `research/audit/` | Fill-level replay audit: records every fill, applies the corrected 60 s markout, and reproduces the tables in `docs/validation-and-limitations.md` (`run.sh`) |
 | `tests/` | Unit tests for the markout convention in `tools/sweep.py` |
 | `docs/validation-and-limitations.md` | What the replay can and cannot tell you, measurement fixes, and signal checks net of costs |
 | `docs/round2-postmortem.md` | Round 2 postmortem: what is measured, what cannot be attributed from the saved records, and the tests that would settle it |
@@ -91,3 +92,14 @@ pqt run strategies/yl_mm.py --mode test --server https://sandbox.princeton-quant
 - Strategy files are prefixed `yl_` after the author. Each program tags its orders with its own client-id prefix, so programs running side by side never cancel each other's orders.
 - This is competition code. It was written fast and tuned on a small amount of data, and it is shared as a record of the work.
 - No trading advice. The simulated market is not a real market.
+
+## Reproducing the validation numbers
+
+With the data pack in `./data` and the SDK installed:
+
+```bash
+AUDIT_DATA=data bash research/audit/run.sh      # takes several minutes; writes research/audit/out/ (git-ignored)
+pytest tests
+```
+
+The baseline row (EMA-centred passive quotes, no taker) should come out at about $3,765 per session on the corrected metric.
