@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+*.zip
+*.whl
+*.log
+.env
+.DS_Store
+pqt-runs/

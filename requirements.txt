@@ -1,0 +1,6 @@
+# PQT SDK (from the organizers' starter-kit release)
+pqt_protocol @ https://github.com/tom05919/pqt-student-kit/releases/download/v0.2.3/pqt_protocol-0.2.3-py3-none-any.whl
+pqt_client @ https://github.com/tom05919/pqt-student-kit/releases/download/v0.2.3/pqt_client-0.2.3-py3-none-any.whl
+# research scripts
+numpy
+pandas
