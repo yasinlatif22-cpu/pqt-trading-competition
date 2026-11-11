@@ -1,5 +1,7 @@
 """yl_aggr: aggressive yl_combo for the algo1 key (R2): ~2x headline size, more shots, HPPO follow +/-200,
 plus the panel view_* trigger (team params declared by yl_touch).
+HPPO is blocked here (BLOCKED below); this program trades BNKY, CRRT and BRRY only.
+Its client-id prefix is "za" (PREFIX below); the "zn" prefix in the yl_news text belongs to yl_news itself.
 
 yl_combo = yl_news + yl_flow in one program.
 

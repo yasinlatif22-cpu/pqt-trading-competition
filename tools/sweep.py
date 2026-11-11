@@ -4,6 +4,13 @@
 
 Strategy overrides come from the environment (e.g. PQT_CFG), read by the strategy at import.
 Prints one summary line plus per-symbol mean gross markout and peak |net exposure|.
+
+Markout convention: each fill is marked against the mid H = 120 batches (60 s) after the batch the
+fill happened in (fill.batch). Fills whose window runs past the end of the session, or whose mark
+top has no two-sided quote, are excluded from gross P&L AND from fees/penalties, and their share of
+volume is reported as `excl` so the proxy is never silently inflated or deflated.
+
+This is a mid-price proxy, not the official score (hidden true value at 60 s, news jumps excluded).
 """
 import importlib.util
 import json
@@ -11,6 +18,18 @@ import sys
 from multiprocessing import Pool
 
 H = 120
+
+
+def markout(tops, fill, h=H):
+    """Gross markout in dollars for one fill, or None if the window is incomplete or unmarkable."""
+    i = fill.batch + h
+    if i >= len(tops):
+        return None
+    top = tops[i][fill.symbol]
+    if top.bid_px is None or top.ask_px is None:
+        return None
+    q = fill.qty if fill.side.name == "BUY" else -fill.qty
+    return q * ((top.bid_px + top.ask_px) / 2 - fill.price) / 100.0
 
 
 def run_one(args):
@@ -42,24 +61,24 @@ def run_one(args):
 
     s = load_session(data, name)
     r = backtest_strategy(s, W())
-    gross = 0.0
+    gross = fees = pen = 0.0
     by = {}
-    for b, f in log:
-        q = f.qty if f.side.name == "BUY" else -f.qty
-        top = s.tops[min(b + H, len(s.tops) - 1)][f.symbol]
-        if top.bid_px is None or top.ask_px is None:
+    kept = excl = 0
+    for _, f in log:
+        g = markout(s.tops, f)
+        if g is None:
+            excl += f.qty
             continue
-        m = (top.bid_px + top.ask_px) / 2
-        g = q * (m - f.price) / 100.0
+        kept += f.qty
         gross += g
+        fees += f.fee_mills / 1000.0
+        pen += f.penalty_mills / 1000.0
         by[f.symbol] = by.get(f.symbol, 0.0) + g
-    fees = r.fees_mills / 1000.0
-    pen = r.penalties_mills / 1000.0
     rej = r.rejects
     nrej = len(rej) if hasattr(rej, "__len__") else int(rej)
     return dict(name=name, proxy=gross - fees - pen, bt=r.pnl_est_mills / 1000.0,
                 fills=len(log), by=by, fees=fees, pen=pen, peakE=peak["E"], rejects=nrej,
-                shares=r.shares_traded)
+                shares=r.shares_traded, kept=kept, excl=excl)
 
 
 def main():
@@ -87,6 +106,7 @@ def main():
         rejects=sum(r["rejects"] for r in res),
         fees=round(sum(r["fees"] for r in res) / n, 1),
         fills=round(sum(r["fills"] for r in res) / n),
+        excl=round(sum(r["excl"] for r in res) / max(1, sum(r["kept"] + r["excl"] for r in res)), 4),
         per={r["name"]: round(r["proxy"], 1) for r in res},
     )
     if as_json:

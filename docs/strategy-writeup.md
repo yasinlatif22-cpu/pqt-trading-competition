@@ -108,3 +108,4 @@ No news at all: pause-10 $3,873, pause-30 $3,804 (pausing costs ~$20–25 per ne
 4. **Wider quotes** lost money on every symbol except BRRY.
 5. Not tried: HPPO create/redeem basket arbitrage (kit has an example `etf_basket.py`), news *direction* trading (only defensive pausing), multiple price levels per side.
 
+> **Note on the numbers above.** They were produced with the first version of `tools/sweep.py`, which marked fills one batch early, clamped marks at the end of the session and charged fees on unmarkable fills. The tool now follows the convention in [validation-and-limitations.md](validation-and-limitations.md); the differences are small (about 2% of shares affected) and do not change any ranking discussed here, but dollar figures from the old tool should not be compared digit for digit with the new one.
