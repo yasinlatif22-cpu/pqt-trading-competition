@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 430" width="900" height="430" font-family="Helvetica, Arial, sans-serif" role="img" aria-labelledby="t d">
+  <title id="t">Round 2 setup: three programs and manual orders feed one exchange, scored 60 seconds after each fill</title>
+  <desc id="d">Left: a maker program (yl_touch), a news and flow taker (yl_combo, then yl_aggr) and teammates' manual GUI orders and news views. Middle: they share one position, exposure and message budget and send orders to the simulated exchange, which batches every 500 ms. Right: each fill is marked against the hidden true value 60 seconds later; the sum is the score, and Round 2 counts double.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555"/></marker>
+  </defs>
+  <rect width="900" height="430" fill="#ffffff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="700" fill="#111">How Round 2 was run (Team 03)</text>
+
+  <rect x="20" y="60" width="270" height="86" rx="8" fill="#e8f0fe" stroke="#3b6fd4"/>
+  <text x="155" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#17376f">Maker: yl_touch</text>
+  <text x="155" y="106" text-anchor="middle" font-size="12" fill="#222">quotes at the touch, 5-batch fair value,</text>
+  <text x="155" y="123" text-anchor="middle" font-size="12" fill="#222">inventory skew, pauses after news</text>
+
+  <rect x="20" y="166" width="270" height="100" rx="8" fill="#e6f4ea" stroke="#2e8b57"/>
+  <text x="155" y="190" text-anchor="middle" font-size="14" font-weight="700" fill="#145a32">Takers: yl_combo, then yl_aggr</text>
+  <text x="155" y="212" text-anchor="middle" font-size="12" fill="#222">IOC orders after news, in the direction</text>
+  <text x="155" y="229" text-anchor="middle" font-size="12" fill="#222">price is already moving; momentum taker.</text>
+  <text x="155" y="246" text-anchor="middle" font-size="12" fill="#222">yl_aggr: larger size, BNKY / CRRT / BRRY</text>
+
+  <rect x="20" y="286" width="270" height="86" rx="8" fill="#fff4e0" stroke="#d98a00"/>
+  <text x="155" y="310" text-anchor="middle" font-size="14" font-weight="700" fill="#6b4300">Teammates at the GUI</text>
+  <text x="155" y="332" text-anchor="middle" font-size="12" fill="#222">live controls, manual orders,</text>
+  <text x="155" y="349" text-anchor="middle" font-size="12" fill="#222">news views entered in the panel</text>
+
+  <line x1="290" y1="103" x2="360" y2="190" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+  <line x1="290" y1="216" x2="360" y2="216" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+  <line x1="290" y1="329" x2="360" y2="242" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <rect x="360" y="130" width="200" height="172" rx="8" fill="#f5f5f5" stroke="#777"/>
+  <text x="460" y="156" text-anchor="middle" font-size="14" font-weight="700" fill="#111">Simulated exchange</text>
+  <text x="460" y="180" text-anchor="middle" font-size="12" fill="#222">HPPO = 1 BNKY + 2 BRRY,</text>
+  <text x="460" y="197" text-anchor="middle" font-size="12" fill="#222">plus BNKY, CRRT, BRRY</text>
+  <text x="460" y="221" text-anchor="middle" font-size="12" fill="#222">orders batched every 500 ms</text>
+  <text x="460" y="245" text-anchor="middle" font-size="12" fill="#222">one team-wide position,</text>
+  <text x="460" y="262" text-anchor="middle" font-size="12" fill="#222">exposure and message budget</text>
+  <text x="460" y="286" text-anchor="middle" font-size="12" fill="#222">news arrives as free text</text>
+
+  <line x1="560" y1="216" x2="620" y2="216" stroke="#555" stroke-width="1.6" marker-end="url(#a)"/>
+
+  <rect x="620" y="110" width="262" height="212" rx="8" fill="#fdecea" stroke="#c0392b"/>
+  <text x="751" y="136" text-anchor="middle" font-size="14" font-weight="700" fill="#7b1f14">How it is scored</text>
+  <text x="751" y="162" text-anchor="middle" font-size="12" fill="#222">Each fill is marked against the</text>
+  <text x="751" y="179" text-anchor="middle" font-size="12" fill="#222">hidden true value 60 s later.</text>
+  <text x="751" y="203" text-anchor="middle" font-size="12" fill="#222">Holding inventory earns nothing;</text>
+  <text x="751" y="220" text-anchor="middle" font-size="12" fill="#222">profit is buying below value,</text>
+  <text x="751" y="237" text-anchor="middle" font-size="12" fill="#222">selling above it, and not being</text>
+  <text x="751" y="254" text-anchor="middle" font-size="12" fill="#222">run over by news.</text>
+  <text x="751" y="284" text-anchor="middle" font-size="13" font-weight="700" fill="#111">Score = R1 + 2 x R2</text>
+  <text x="751" y="304" text-anchor="middle" font-size="12" fill="#222">R2 = $35,876.94 of $73,234.06</text>
+
+  <text x="450" y="408" text-anchor="middle" font-size="12" fill="#555">Based on docs/round2-postmortem.md and docs/strategy-writeup.md. The split of R2 by program cannot be attributed from the saved records.</text>
+</svg>
