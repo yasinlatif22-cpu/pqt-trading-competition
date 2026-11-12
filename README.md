@@ -22,11 +22,9 @@ R2 counts double, so it produced about 98% of the total. R1 was a learning round
 
 ## My contribution
 
-<!-- TODO(Yasin): the repo does not say who on the team did what beyond the code. Fill in your role during the live rounds (for example: who ran the programs, who entered news views, who set the live controls and sizing) and your teammates' roles, then delete this comment. -->
-
 I wrote the strategy code, research scripts, backtest tooling and the post-competition fill-level audit in this repository. Strategy files are prefixed `yl_` after me. Each program tags its orders with its own client-id prefix, so programs running side by side never cancel each other's orders, and a teammate's manual GUI order is never cancelled by mine.
 
-Teammates operated the trader GUI during the live rounds: they changed live controls, placed manual orders, and entered news views in the panel that `yl_touch` reads. The repo does not record which teammate did which.
+During the live rounds I monitored whether the algorithms were working, using the 2-minute per-symbol markout readout in the logs and the team rule of cutting a symbol after consecutive negative readings. Teammates operated the trader GUI: they changed live controls, placed manual orders, and entered news views in the panel that `yl_touch` reads. The repo does not record which teammate did which.
 
 ## Findings
 
